@@ -1,0 +1,4 @@
+include ':networking'
+include ':dependency-injection'
+include ':app'
+rootProject.name = "StockBitMobileChallenge"
