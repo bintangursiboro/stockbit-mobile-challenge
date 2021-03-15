@@ -105,16 +105,18 @@ class WatchListFragment : Fragment() {
     private fun onSuccessView(successData: List<CryptoData>) {
         stockAdapter.stockList = successData
         stockAdapter.notifyDataSetChanged()
+        swipeContainer.isRefreshing = false
         stockList.adapter = stockAdapter
         shimmer_container.visibility = View.GONE
-        watchListRecyclerView.visibility = View.VISIBLE
+        swipeContainer.visibility = View.VISIBLE
         errorLayout.visibility = View.GONE
     }
 
     private fun onLoadingView() {
         shimmer_container.visibility = View.VISIBLE
-        watchListRecyclerView.visibility = View.GONE
+        swipeContainer.visibility = View.GONE
         errorLayout.visibility = View.GONE
+        swipeContainer.isRefreshing = false
     }
 
     private fun onErrorView(errorMessage: String?) {
@@ -122,9 +124,10 @@ class WatchListFragment : Fragment() {
         stockAdapter.notifyDataSetChanged()
         stockList.adapter = stockAdapter
         shimmer_container.visibility = View.GONE
-        watchListRecyclerView.visibility = View.GONE
+        swipeContainer.visibility = View.GONE
         errorTextView.text = errorMessage
         errorLayout.visibility = View.VISIBLE
+        swipeContainer.isRefreshing = false
     }
 
     private fun initView(view: View) {
@@ -139,6 +142,10 @@ class WatchListFragment : Fragment() {
         setupViewModel()
 
         setupObserver()
+
+        swipeContainer.setOnRefreshListener {
+            watchListViewModel.retrieveStockData()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

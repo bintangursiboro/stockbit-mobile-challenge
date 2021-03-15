@@ -22,7 +22,7 @@ class WatchListViewModel : ViewModel() {
 
     private val apiService: ApiService by inject(ApiService::class.java)
 
-    var page = 1
+    private var page = 1
 
     override fun onCleared() {
         disposable.dispose()
@@ -38,6 +38,7 @@ class WatchListViewModel : ViewModel() {
     }
 
     fun retrieveStockData() {
+        page = 1
         isLoadMore.postValue(false)
         stockLiveData.postValue(Resource(ResponseStatus.LOADING, null, null))
         disposable.add(

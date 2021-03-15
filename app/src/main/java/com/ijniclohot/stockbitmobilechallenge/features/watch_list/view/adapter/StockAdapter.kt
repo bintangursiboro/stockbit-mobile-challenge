@@ -61,7 +61,11 @@ class StockAdapter(
                 holder.changePc.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary))
             }
         }
-        holder.changePc.text = stockList[position].display.IDR.changeday.replace(
+        var prefix = ""
+        if (stockList[position].raw.IDR.changepctday > 0){
+            prefix = "+"
+        }
+        holder.changePc.text = "$prefix " +  stockList[position].display.IDR.changeday.replace(
             "IDR ",
             ""
         ) + "(" + stockList[position].display.IDR.changepctday + "%)"
